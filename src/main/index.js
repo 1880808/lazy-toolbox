@@ -1,8 +1,10 @@
 import { app, shell, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
 import { join } from 'path'
+import asar from 'asar'
 import fs from 'fs'
+import os from 'os'
 import { exec } from 'child_process'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { electronApp, is } from '@electron-toolkit/utils'
 import fixPath from 'fix-path';
 
 // 创建浏览器窗口的函数
@@ -326,10 +328,8 @@ ipcMain.handle('execute-replace', async (event, filePath = '', env) => {
 // 上传文件夹 替换文件夹的内容, 不是覆盖
 // targetFolder = targetFolder ? targetFolder : join(__dirname, '../renderer/lib/build/pages');
 ipcMain.handle('upload:folder', async (event, sourceFolder = '', targetFolder = '') => {
-
   const files = fs.readdirSync(sourceFolder);
   targetFolder = targetFolder ? targetFolder : join(__dirname, '../renderer/lib/build/pages');
-
 
   if(sourceFolder.indexOf('lazy-') > 0) {
     for (const file of files) {
@@ -402,3 +402,4 @@ ipcMain.handle('export-folder', async (event, sourceFolder = '', targetFolder = 
     return { success: false, message: error.message };
   }
 });
+

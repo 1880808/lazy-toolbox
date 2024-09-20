@@ -21,33 +21,36 @@
     "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "npm run build && electron-builder --mac",
-    "build:linux": "npm run build && electron-builder --linux"
+    "build:win": "npm run build && electron-builder --win --config",
+    "build:mac": "npm run build && electron-builder --mac --config",
+    "build:linux": "npm run build && electron-builder --linux --config"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "@electron/asar": "^3.2.13",
+    "asar": "^3.2.0",
+    "axios": "^1.7.7",
     "electron-updater": "^6.1.7",
+    "electron-vite": "^2.3.0",
     "pinia": "^2.2.2",
-    "vant": "^4.9.6"
+    "vant": "^4.9.6",
+    "vite": "^5.3.1",
+    "vue": "^3.4.30",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
     "@rushstack/eslint-patch": "^1.10.3",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",
-    "axios": "^1.7.7",
     "electron": "^31.0.2",
-    "electron-builder": "^24.13.3",
-    "electron-vite": "^2.3.0",
+    "electron-builder": "^25.0.5",
+    "electron-squirrel-startup": "^1.0.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.26.0",
     "fix-path": "^4.0.0",
     "prettier": "^3.3.2",
-    "sass-embedded": "^1.79.1",
-    "vite": "^5.3.1",
-    "vue": "^3.4.30",
-    "vue-router": "^4.4.5"
+    "sass-embedded": "^1.79.1"
   }
 }

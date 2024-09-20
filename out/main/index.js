@@ -1,10 +1,11 @@
 import { app, globalShortcut, BrowserWindow, ipcMain, dialog, shell } from "electron";
 import require$$0, { join } from "path";
+import "asar";
 import fs$1 from "fs";
+import require$$0$2 from "os";
 import require$$0$1, { exec } from "child_process";
 import { electronApp, is } from "@electron-toolkit/utils";
 import process$2 from "node:process";
-import require$$0$2 from "os";
 import require$$0$3 from "assert";
 import require$$2 from "events";
 import require$$0$5 from "buffer";
