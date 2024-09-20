@@ -1,5 +1,5 @@
 ## lazy 偷懒的小工具 一个基于Electron-vite + Vue3的小工具
-### 也可以直接下载mac版本lazy-mac.zip直接使用
+<!-- ### 也可以直接下载mac版本lazy-mac.zip直接使用, 尽可能的安装mac的Applications应用里, 否则有些功能无法使用 -->
 
 ## 目前只有多环境打包的功能
 <img src="/src/renderer/src/assets/img/example/build.jpg" width="800">
