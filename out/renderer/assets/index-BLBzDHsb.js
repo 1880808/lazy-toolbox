@@ -1,4 +1,4 @@
-import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as showToast, Y as openBlock, Z as normalizeClass, $ as toDisplayString, a0 as Icon, a1 as Field, a2 as useRouter } from "./index-opY5QiVs.js";
+import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as showToast, Y as openBlock, Z as normalizeClass, $ as toDisplayString, a0 as Icon, a1 as Field, a2 as useRouter } from "./index-CivtRbP1.js";
 const useHeight = (element, withSafeArea) => {
   const height = ref();
   const setHeight = () => {
@@ -745,7 +745,7 @@ const _sfc_main = {
           })
         ]),
         createBaseVNode("section", _hoisted_4, [
-          _cache[13] || (_cache[13] = createBaseVNode("section", { class: "title" }, [
+          _cache[13] || (_cache[13] = createBaseVNode("section", { class: "pb-10 title" }, [
             createTextVNode("替换文件"),
             createBaseVNode("span", { class: "c-gray sub" }, " (文件内容替换, 文件名不会替换, 如无填空)")
           ], -1)),
@@ -791,7 +791,7 @@ const _sfc_main = {
           ])
         ]),
         createBaseVNode("section", _hoisted_8, [
-          _cache[16] || (_cache[16] = createBaseVNode("section", { class: "title" }, [
+          _cache[16] || (_cache[16] = createBaseVNode("section", { class: "pb-10 title" }, [
             createTextVNode("替换文件夹"),
             createBaseVNode("span", { class: "c-gray sub" }, " (整个文件夹替换, 文件夹名不会替换, 如无填空)")
           ], -1)),
@@ -960,7 +960,7 @@ const _sfc_main = {
     };
   }
 };
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-bb7d6ef3"]]);
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-25212db1"]]);
 export {
   index as default
 };

@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-Cct6jtcG.js","./index-k1DxixnT.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-BLBzDHsb.js","./index-BJ6EY8lT.css"])))=>i.map(i=>d[i]);
 /**
 * @vue/shared v3.5.6
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
@@ -14209,7 +14209,7 @@ const _sfc_main = {
 const Login = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3c88dfc5"]]);
 const routes = [
   { path: "/", component: Login },
-  { path: "/build", component: () => __vitePreload(() => import("./index-Cct6jtcG.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
+  { path: "/build", component: () => __vitePreload(() => import("./index-BLBzDHsb.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
   { path: "/:pathMatch(.*)*", redirect: "/" }
 ];
 const router = createRouter({
