@@ -1,10 +1,11 @@
 import { app, globalShortcut, BrowserWindow, ipcMain, dialog, shell } from "electron";
 import require$$0, { join } from "path";
+import "asar";
 import fs$1 from "fs";
+import require$$0$2 from "os";
 import require$$0$1, { exec } from "child_process";
 import { electronApp, is } from "@electron-toolkit/utils";
 import process$2 from "node:process";
-import require$$0$2 from "os";
 import require$$0$3 from "assert";
 import require$$2 from "events";
 import require$$0$5 from "buffer";
@@ -1860,12 +1861,13 @@ function fixPath() {
 let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1100,
+    height: 800,
     show: false,
     // 初始时不显示窗口
     autoHideMenuBar: true,
     // 自动隐藏菜单栏
+    icon: join(__dirname, "../renderer/img/logo2.png"),
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,

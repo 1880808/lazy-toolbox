@@ -1,0 +1,85 @@
+.header[data-v-bb7d6ef3] {
+  flex-wrap: wrap;
+  min-height: 35px;
+  margin-bottom: 20px;
+}
+.header .nav[data-v-bb7d6ef3] {
+  padding: 0 10px 0 15px;
+  height: 35px;
+  margin: 5px 15px 5px 0;
+  color: #333333;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #DCDEE0;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.header .nav.active[data-v-bb7d6ef3] {
+  background: #58BE6A;
+  color: #ffffff;
+}
+.header .upload-folder[data-v-bb7d6ef3] {
+  padding: 0 8px;
+  height: 35px;
+  line-height: 35px;
+  margin: 0 15px 0 0;
+  color: #4187F2;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #4187F2;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.file-box[data-v-bb7d6ef3] {
+  margin-bottom: 30px;
+}
+.file-box .title[data-v-bb7d6ef3] {
+  font-weight: bold;
+  font-size: 16px;
+}
+.file-box .sub[data-v-bb7d6ef3] {
+  font-weight: normal;
+  font-size: 12px;
+}
+.file-box .button[data-v-bb7d6ef3] {
+  width: 120px;
+}
+.modify-box .select[data-v-bb7d6ef3] {
+  flex-wrap: wrap;
+}
+.modify-box .select .select-list[data-v-bb7d6ef3] {
+  position: relative;
+  padding: 6px 20px 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #cccccc;
+  color: #cccccc;
+  cursor: pointer;
+}
+.modify-box .select .select-list .van-icon[data-v-bb7d6ef3] {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.modify-box .select .select-list.active[data-v-bb7d6ef3] {
+  background: #58BE6A;
+  color: #ffffff;
+}
+.modify-box .input[data-v-bb7d6ef3]:nth-child(2) {
+  margin-left: 10px;
+}
+.input[data-v-bb7d6ef3] {
+  border: 1px solid #ebedf0;
+  border-radius: 10px;
+}
+.input[data-v-bb7d6ef3]:after {
+  content: none;
+}
+.submit-btns .submit[data-v-bb7d6ef3] {
+  width: 300px;
+  border-radius: 30px;
+}
+.submit-btns .logout[data-v-bb7d6ef3] {
+  margin-left: 10px;
+  width: 100px;
+  border-radius: 30px;
+}

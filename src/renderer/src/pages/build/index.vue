@@ -171,7 +171,6 @@ async function openFileModify() {
 }
 
 function removeFileList (index) {
-  console.log ()
   showDialog({
     title: '提示',
     message: '确认删除 ' + modifyList.value[index]?.name +' 吗?',
@@ -287,7 +286,6 @@ async function uploadFolder () {
   const result = await window.electron.openFolderDialog();
   if (result.length > 0) {
     const folderResult = await window.electron.uploadFolder(result[0]);
-    console.log (folderResult)
     if(folderResult.success) {
       readFromHeader()
       readFromFile()
@@ -303,7 +301,6 @@ async function uploadFolder () {
 // 导出文件夹
 async function exportFolder () {
   let result = await window.electron.openFolderDialog();
-  console.log (result)
   if (result.length > 0) {
     await window.electron.exportFolder('', result[0], 'lazy-build-config');
     showDialog({
@@ -323,7 +320,7 @@ function logout () {
   showDialog({
     title: '提示',
     message: '确认退出吗?',
-    showCancelButton: true,
+    showCancelButton: true
   }).then(() => {
     userStore.logout()
     router.push('/login')
@@ -348,7 +345,7 @@ function logout () {
     </nav>
 
     <section class="file-box">
-      <section class="title">替换文件<span class="c-gray sub"> (文件内容替换, 文件名不会替换, 如无填空)</span></section>
+      <section class="pb-10 title">替换文件<span class="c-gray sub"> (文件内容替换, 文件名不会替换, 如无填空)</span></section>
       <section class="flex-row items-center">
         <section class="flex-row items-center flex-1">
           <Field v-model="sourceFile" placeholder="请填写 或 选择新文件地址" @change="saveToFile"/>
@@ -362,7 +359,7 @@ function logout () {
     </section>
 
     <section class="file-box">
-      <section class="title">替换文件夹<span class="c-gray sub"> (整个文件夹替换, 文件夹名不会替换, 如无填空)</span></section>
+      <section class="pb-10 title">替换文件夹<span class="c-gray sub"> (整个文件夹替换, 文件夹名不会替换, 如无填空)</span></section>
       <section class="flex-row items-center">
         <section class="flex-row items-center flex-1">
           <Field v-model="sourceFolder" placeholder="请填写 或 选择新文件夹地址" @change="saveToFile"/>
