@@ -49,6 +49,7 @@ $ npm run build:linux
 ### 4.build打包功能
 ```bash
  如不会配置文件 参考: resources/example/build/下的配置文件
+ 打包后需要的安装mac的Applications应用里再打开, 否则有些功能无法使用
 ```
 ### 5.导入配置文件
 <img src="/src/renderer/src/assets/img/example/Import_configuration.jpg" width="500">
