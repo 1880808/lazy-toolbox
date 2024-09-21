@@ -13,17 +13,17 @@ asarUnpack:
   - resources/**
 afterSign: build/notarize.js
 win:
-  icon: build/icons/icon2.ico
+  icon: build/icons/icon.ico
   executableName: vue-ts
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
-  installerIcon: build/icons/icon2.ico
-  uninstallerIcon: build/icons/icon2.ico
+  installerIcon: build/icons/icon.ico
+  uninstallerIcon: build/icons/icon.ico
 mac:
-  icon: build/icons/icon2.icns
+  icon: build/icons/icon.icns
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
