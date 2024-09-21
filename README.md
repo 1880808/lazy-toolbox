@@ -1,5 +1,5 @@
 ## lazy 偷懒的小工具 一个基于Electron-vite + Vue3的小工具
-### 也可以直接下载mac版本lazy-mac.zip直接使用
+<!-- ### 也可以直接下载mac版本lazy-mac.zip直接使用, 尽可能的安装mac的Applications应用里, 否则有些功能无法使用 -->
 
 ## 目前只有多环境打包的功能
 <img src="/src/renderer/src/assets/img/example/build.jpg" width="800">
@@ -49,6 +49,7 @@ $ npm run build:linux
 ### 4.build打包功能
 ```bash
  如不会配置文件 参考: resources/example/build/下的配置文件
+ 打包后需要的安装mac的Applications应用里再打开, 否则有些功能无法使用
 ```
 ### 5.导入配置文件
 <img src="/src/renderer/src/assets/img/example/Import_configuration.jpg" width="500">
