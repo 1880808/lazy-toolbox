@@ -4,8 +4,12 @@ const data = {
   "targetFile": "",
   "sourceFolder": "",
   "targetFolder": "",
-  "modifyList": [
-  ]
+  "modifyList": [],
+  "executeBuild": {
+    "loading": false,
+    "command": "333",
+    "folder": "/Users/ff/Desktop/hs/github/lazy-toolbox3"
+  }
 };
 
 export default data;

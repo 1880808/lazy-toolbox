@@ -1,8 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
 import { join } from 'path'
-import asar from 'asar'
 import fs from 'fs'
-import os from 'os'
 import { exec } from 'child_process'
 import { electronApp, is } from '@electron-toolkit/utils'
 import fixPath from 'fix-path';
@@ -404,3 +402,22 @@ ipcMain.handle('export-folder', async (event, sourceFolder = '', targetFolder = 
   }
 });
 
+// 在指定文件夹下, 执行命名行
+ipcMain.handle('execute-command-line', async (event, folder, command) => {
+  return new Promise((resolve, reject) => {
+    exec(command,  { cwd: folder }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`执行错误: ${error.message}`);
+        dialog.showErrorBox('执行错误', error.message);
+        // return reject(error);
+        resolve({ success: false, message: error.message }); // 返回标准输出
+      }
+      if (stderr) {
+        // console.error(`标准错误: ${stderr}`);
+        // dialog.showErrorBox('标准错误', stderr);
+        resolve({ success: true, message: stdout }); // 返回标准输出
+      }
+      // resolve(stdout); // 返回标准输出
+    });
+  });
+});

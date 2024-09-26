@@ -22,7 +22,9 @@ const api = {
   // 修改文件名
   renameFile: (oldFileName, newFileName, renamePath, format) => ipcRenderer.invoke("rename-file", oldFileName, newFileName, renamePath, format),
   // 执行命令行
-  executeReplace: (filePath, env) => ipcRenderer.invoke("execute-replace", filePath, env)
+  executeReplace: (filePath, env) => ipcRenderer.invoke("execute-replace", filePath, env),
+  // 在指定文件夹下, 执行命名行
+  executeCommandLine: (folder, command) => ipcRenderer.invoke("execute-command-line", folder, command)
 };
 if (process.contextIsolated) {
   try {

@@ -1,7 +1,7 @@
 <script setup>
-import { Button, Field, Icon, showToast, Dialog, showDialog } from 'vant'
+import { Button, Field, Icon, showToast, Dialog, showDialog, Loading } from 'vant'
 import { ref } from 'vue'
-import { useUserStore } from '../../../../store/modules/user.js'
+import { useUserStore } from '../../../../store/index.js'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
@@ -12,7 +12,12 @@ const overallShow = ref(false)
 const overallIndex = ref(0)
 const overallType = ref('')
 const fileNameList = ref([])
-
+// 打包功能参数
+const executeBuild = ref({
+  loading: false,
+  command: '',
+  folder: ''
+})
 // 读取配置, 存在赋值给变量
 readFromHeader()
 async function readFromHeader() {
@@ -31,6 +36,7 @@ async function readFromFile() {
     targetFile.value = data.targetFile
     sourceFolder.value = data.sourceFolder
     targetFolder.value = data.targetFolder
+    executeBuild.value = data.executeBuild
     data.modifyList.forEach(item => {
       item.json = item.json.filter(json => json.key && json.value)
     })
@@ -50,7 +56,7 @@ function selectFileName (index) {
   overallIndex.value = index
   readFromFile()
 }
-// 修改配置名
+// 修改添加配置名 headers
 const fileNameModify = ref('')
 function openFileName (type, index) {
   overallType.value = type
@@ -88,6 +94,11 @@ function confirmFileName () {
       targetFile: "",
       sourceFolder: "",
       targetFolder: "",
+      executeBuild: {
+        loading: false,
+        command: '',
+        folder: ''
+      },
       modifyList: []
     }
     window.electron.saveFile(JSON.stringify(data));
@@ -223,10 +234,12 @@ async function saveToFile() {
     targetFile: targetFile.value,
     sourceFolder: sourceFolder.value,
     targetFolder: targetFolder.value,
-    modifyList: modifyList.value
+    modifyList: modifyList.value,
+    executeBuild: executeBuild.value
   }
   window.electron.saveFile(JSON.stringify(data));
 }
+
 // 修改保存config
 async function saveFileConfig() {
   const result = await window.electron.readFile('config', window.electron.getDirname('../renderer/lib/build'));
@@ -234,11 +247,12 @@ async function saveFileConfig() {
     if (!result.data[fileNameList.value[overallIndex.value]]) {
       result.data[fileNameList.value[overallIndex.value]] = {}
     }
-
+    console.log (executeBuild.value)
     result.data[fileNameList.value[overallIndex.value]].sourceFile = sourceFile.value
     result.data[fileNameList.value[overallIndex.value]].targetFile = targetFile.value
     result.data[fileNameList.value[overallIndex.value]].sourceFolder = sourceFolder.value
     result.data[fileNameList.value[overallIndex.value]].targetFolder = targetFolder.value
+    result.data[fileNameList.value[overallIndex.value]].executeBuild = executeBuild.value
     result.data[fileNameList.value[overallIndex.value]].modifyList = []
     for (const item of modifyList.value) {
       let saveJson = {
@@ -320,11 +334,43 @@ function logout () {
   showDialog({
     title: '提示',
     message: '确认退出吗?',
-    showCancelButton: true
+    showCancelButton: true,
+    theme: 'round-button',
   }).then(() => {
     userStore.logout()
     router.push('/login')
   });
+}
+
+// 打包功能
+async function executeCommandLine() {
+  const paths = await window.electron.openFolderDialog();
+  if (paths.length > 0) {
+    executeBuild.value.folder = paths[0]
+    saveToFile()
+  }
+}
+async function startBuild() {
+  if(!executeBuild.value.folder || !executeBuild.value.command) {
+    showDialog({
+      title: '提示',
+      message: '请检查输入',
+      showCancelButton: false,
+      theme: 'round-button',
+    })
+    return false
+  }
+  executeBuild.value.loading = true
+  const { success, message } = await window.electron.executeCommandLine(executeBuild.value.folder, executeBuild.value.command);
+  executeBuild.value.loading = false
+  if (success) {
+    showDialog({
+      title: '提示',
+      message: '打包完成',
+      showCancelButton: false,
+      theme: 'round-button'
+    })
+  }
 }
 </script>
 
@@ -348,11 +394,11 @@ function logout () {
       <section class="pb-10 title">替换文件<span class="c-gray sub"> (文件内容替换, 文件名不会替换, 如无填空)</span></section>
       <section class="flex-row items-center">
         <section class="flex-row items-center flex-1">
-          <Field v-model="sourceFile" placeholder="请填写 或 选择新文件地址" @change="saveToFile"/>
+          <Field v-model="sourceFile" placeholder="请填选新文件地址" @change="saveToFile"/>
           <Button type="primary" plain @click="openFile('new')" class="button">选择新文件</Button>
         </section>
         <section class="flex-row items-center flex-1">
-          <Field v-model="targetFile" placeholder="请填写 或 选择旧文件地址" @change="saveToFile"/>
+          <Field v-model="targetFile" placeholder="请填选旧文件地址" @change="saveToFile"/>
           <Button type="primary" plain @click="openFile('old')" class="button">选择旧文件</Button>
         </section>
       </section>
@@ -362,11 +408,11 @@ function logout () {
       <section class="pb-10 title">替换文件夹<span class="c-gray sub"> (整个文件夹替换, 文件夹名不会替换, 如无填空)</span></section>
       <section class="flex-row items-center">
         <section class="flex-row items-center flex-1">
-          <Field v-model="sourceFolder" placeholder="请填写 或 选择新文件夹地址" @change="saveToFile"/>
+          <Field v-model="sourceFolder" placeholder="请填选新文件夹地址" @change="saveToFile"/>
           <Button type="primary" plain @click="openFolder('new')" class="button">新文件夹</Button>
         </section>
         <section class="flex-row items-center flex-1">
-          <Field v-model="targetFolder" placeholder="请填写 或 选择旧文件夹地址" @change="saveToFile"/>
+          <Field v-model="targetFolder" placeholder="请填选旧文件夹地址" @change="saveToFile"/>
           <Button type="primary" plain @click="openFolder('old')" class="button">旧文件夹</Button>
         </section>
       </section>
@@ -389,7 +435,7 @@ function logout () {
           <Icon name="add-o" size="24" color="#4187F2" class="cursor ml-10"  @click="addJsonField(index)"/>
           <Icon name="close" size="24" color="red" class="ml-10 cursor" @click="removeFileList(index)"/>
         </section>
-        <section class="flex-row items-center pb-10" v-for="(itemC, indexC) in item.json" :key="item.id" >
+        <section class="flex-row items-center pb-10" v-for="(itemC, indexC) in item.json" :key="indexC" >
           <Field v-model="itemC.key" label="字段名:" label-width="50" placeholder="请填写json字段名" class="flex-1 input" @change="saveToFile"/>
           <Field v-model="itemC.value" label="值:" label-width="20" placeholder="请填写json值" class="flex-1 input" @change="saveToFile"/>
           <Button type="danger" plain size="small" class="ml-10" @click="removeJsonField(index, indexC)">删除</Button>
@@ -399,8 +445,27 @@ function logout () {
     </section>
 
     <section class="flex-row justify-center items-center submit-btns">
-      <Button type="primary" @click="submit" class="submit">立即执行</Button>
-      <Button plain @click="logout" class="logout">退出</Button>
+      <Button type="primary" @click="submit" class="submit" color="#F19C73">确定修改</Button>
+    </section>
+
+    <section class="file-box mt-40 execute-command-line">
+      <section class="pb-10 title">项目打包<span class="c-gray sub"> (打包功能, 填选项目根目录地址, 输入项目的打包命令)</span></section>
+      <section class="flex-row items-center box">
+        <Field v-model="executeBuild.folder" placeholder="请填选项目根目录地址" @change="saveToFile"/>
+        <Button type="primary" plain @click="executeCommandLine" class="button">根目录</Button>
+      </section>
+      <section class="flex-row items-center mt-10 box box2">
+        <Field v-model="executeBuild.command" placeholder="请输入打包命令, 如 npm run build" @change="saveToFile"/>
+        <section class="c-gray no-started">
+          <template v-if="!executeBuild.loading">未开始打包</template>
+          <loading v-else color="#1989fa"/>
+        </section>
+      </section>
+      <Button type="primary" @click="startBuild" class="submit" color="#F19C73">开始打包</Button>
+    </section>
+
+    <section class="flex-row justify-center items-center submit-btns">
+      <Button plain @click="logout" class="logout">返回首页</Button>
     </section>
 
     <Dialog
@@ -505,12 +570,31 @@ function logout () {
 
 .submit-btns{
   .submit{
-    width: 300px;
+    width: 160px;
     border-radius: 30px;
   }
   .logout{
     margin-left: 10px;
     width: 100px;
+    border-radius: 30px;
+  }
+}
+
+.execute-command-line{
+  position: relative;
+  .box{
+    width: 500px;
+  }
+  .no-started{
+    width: 130px;
+    text-align: center;
+  }
+  .submit {
+    position: absolute;
+    top: 45px;
+    left: 540px;
+    width: 120px;
+    height: 60px;
     border-radius: 30px;
   }
 }

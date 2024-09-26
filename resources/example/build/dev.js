@@ -24,7 +24,12 @@ const data = {
         { "id": 1, "key": "NODE_ENV", "value": "prod" }
       ]
     }
-  ]
+  ],
+  "executeBuild": {
+    "loading": false,
+    "command": "npm run build",
+    "folder": "/Users/github/lazy-toolbox"
+  }
 };
 
 export default data;

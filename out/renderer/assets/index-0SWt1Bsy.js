@@ -1,4 +1,4 @@
-import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as showToast, Y as openBlock, Z as normalizeClass, $ as toDisplayString, a0 as Icon, a1 as Field, a2 as useRouter } from "./index-CivtRbP1.js";
+import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as createBlock, Y as showToast, Z as openBlock, $ as normalizeClass, a0 as toDisplayString, a1 as Icon, a2 as Field, a3 as Loading, a4 as useRouter } from "./index-Uo-L1bZk.js";
 const useHeight = (element, withSafeArea) => {
   const height = ref();
   const setHeight = () => {
@@ -415,7 +415,12 @@ const _hoisted_13 = { class: "flex-row items-center title" };
 const _hoisted_14 = { class: "flex-row items-center mt-15 mb-10 select" };
 const _hoisted_15 = { class: "select-list active" };
 const _hoisted_16 = { class: "flex-row justify-center items-center submit-btns" };
-const _hoisted_17 = { class: "ml-20 mr-20 mt-30 mb-30" };
+const _hoisted_17 = { class: "file-box mt-40 execute-command-line" };
+const _hoisted_18 = { class: "flex-row items-center box" };
+const _hoisted_19 = { class: "flex-row items-center mt-10 box box2" };
+const _hoisted_20 = { class: "c-gray no-started" };
+const _hoisted_21 = { class: "flex-row justify-center items-center submit-btns" };
+const _hoisted_22 = { class: "ml-20 mr-20 mt-30 mb-30" };
 const _sfc_main = {
   __name: "index",
   setup(__props) {
@@ -425,6 +430,11 @@ const _sfc_main = {
     const overallIndex = ref(0);
     const overallType = ref("");
     const fileNameList = ref([]);
+    const executeBuild = ref({
+      loading: false,
+      command: "",
+      folder: ""
+    });
     readFromHeader();
     async function readFromHeader() {
       const result = await window.electron.readFile("headers");
@@ -441,6 +451,7 @@ const _sfc_main = {
         targetFile.value = data.targetFile;
         sourceFolder.value = data.sourceFolder;
         targetFolder.value = data.targetFolder;
+        executeBuild.value = data.executeBuild;
         data.modifyList.forEach((item) => {
           item.json = item.json.filter((json) => json.key && json.value);
         });
@@ -492,6 +503,11 @@ const _sfc_main = {
           targetFile: "",
           sourceFolder: "",
           targetFolder: "",
+          executeBuild: {
+            loading: false,
+            command: "",
+            folder: ""
+          },
           modifyList: []
         };
         window.electron.saveFile(JSON.stringify(data));
@@ -612,7 +628,8 @@ const _sfc_main = {
         targetFile: targetFile.value,
         sourceFolder: sourceFolder.value,
         targetFolder: targetFolder.value,
-        modifyList: modifyList.value
+        modifyList: modifyList.value,
+        executeBuild: executeBuild.value
       };
       window.electron.saveFile(JSON.stringify(data));
     }
@@ -622,10 +639,12 @@ const _sfc_main = {
         if (!result.data[fileNameList.value[overallIndex.value]]) {
           result.data[fileNameList.value[overallIndex.value]] = {};
         }
+        console.log(executeBuild.value);
         result.data[fileNameList.value[overallIndex.value]].sourceFile = sourceFile.value;
         result.data[fileNameList.value[overallIndex.value]].targetFile = targetFile.value;
         result.data[fileNameList.value[overallIndex.value]].sourceFolder = sourceFolder.value;
         result.data[fileNameList.value[overallIndex.value]].targetFolder = targetFolder.value;
+        result.data[fileNameList.value[overallIndex.value]].executeBuild = executeBuild.value;
         result.data[fileNameList.value[overallIndex.value]].modifyList = [];
         for (const item of modifyList.value) {
           let saveJson = {
@@ -697,11 +716,41 @@ const _sfc_main = {
       showDialog({
         title: "提示",
         message: "确认退出吗?",
-        showCancelButton: true
+        showCancelButton: true,
+        theme: "round-button"
       }).then(() => {
         userStore.logout();
         router.push("/login");
       });
+    }
+    async function executeCommandLine() {
+      const paths = await window.electron.openFolderDialog();
+      if (paths.length > 0) {
+        executeBuild.value.folder = paths[0];
+        saveToFile();
+      }
+    }
+    async function startBuild() {
+      if (!executeBuild.value.folder || !executeBuild.value.command) {
+        showDialog({
+          title: "提示",
+          message: "请检查输入",
+          showCancelButton: false,
+          theme: "round-button"
+        });
+        return false;
+      }
+      executeBuild.value.loading = true;
+      const { success, message } = await window.electron.executeCommandLine(executeBuild.value.folder, executeBuild.value.command);
+      executeBuild.value.loading = false;
+      if (success) {
+        showDialog({
+          title: "提示",
+          message: "打包完成",
+          showCancelButton: false,
+          theme: "round-button"
+        });
+      }
     }
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("section", _hoisted_1, [
@@ -745,7 +794,7 @@ const _sfc_main = {
           })
         ]),
         createBaseVNode("section", _hoisted_4, [
-          _cache[13] || (_cache[13] = createBaseVNode("section", { class: "pb-10 title" }, [
+          _cache[15] || (_cache[15] = createBaseVNode("section", { class: "pb-10 title" }, [
             createTextVNode("替换文件"),
             createBaseVNode("span", { class: "c-gray sub" }, " (文件内容替换, 文件名不会替换, 如无填空)")
           ], -1)),
@@ -754,7 +803,7 @@ const _sfc_main = {
               createVNode(unref(Field), {
                 modelValue: sourceFile.value,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => sourceFile.value = $event),
-                placeholder: "请填写 或 选择新文件地址",
+                placeholder: "请填选新文件地址",
                 onChange: saveToFile
               }, null, 8, ["modelValue"]),
               createVNode(unref(Button), {
@@ -763,7 +812,7 @@ const _sfc_main = {
                 onClick: _cache[2] || (_cache[2] = ($event) => openFile("new")),
                 class: "button"
               }, {
-                default: withCtx(() => _cache[11] || (_cache[11] = [
+                default: withCtx(() => _cache[13] || (_cache[13] = [
                   createTextVNode("选择新文件")
                 ])),
                 _: 1
@@ -773,7 +822,7 @@ const _sfc_main = {
               createVNode(unref(Field), {
                 modelValue: targetFile.value,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => targetFile.value = $event),
-                placeholder: "请填写 或 选择旧文件地址",
+                placeholder: "请填选旧文件地址",
                 onChange: saveToFile
               }, null, 8, ["modelValue"]),
               createVNode(unref(Button), {
@@ -782,7 +831,7 @@ const _sfc_main = {
                 onClick: _cache[4] || (_cache[4] = ($event) => openFile("old")),
                 class: "button"
               }, {
-                default: withCtx(() => _cache[12] || (_cache[12] = [
+                default: withCtx(() => _cache[14] || (_cache[14] = [
                   createTextVNode("选择旧文件")
                 ])),
                 _: 1
@@ -791,7 +840,7 @@ const _sfc_main = {
           ])
         ]),
         createBaseVNode("section", _hoisted_8, [
-          _cache[16] || (_cache[16] = createBaseVNode("section", { class: "pb-10 title" }, [
+          _cache[18] || (_cache[18] = createBaseVNode("section", { class: "pb-10 title" }, [
             createTextVNode("替换文件夹"),
             createBaseVNode("span", { class: "c-gray sub" }, " (整个文件夹替换, 文件夹名不会替换, 如无填空)")
           ], -1)),
@@ -800,7 +849,7 @@ const _sfc_main = {
               createVNode(unref(Field), {
                 modelValue: sourceFolder.value,
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => sourceFolder.value = $event),
-                placeholder: "请填写 或 选择新文件夹地址",
+                placeholder: "请填选新文件夹地址",
                 onChange: saveToFile
               }, null, 8, ["modelValue"]),
               createVNode(unref(Button), {
@@ -809,7 +858,7 @@ const _sfc_main = {
                 onClick: _cache[6] || (_cache[6] = ($event) => openFolder("new")),
                 class: "button"
               }, {
-                default: withCtx(() => _cache[14] || (_cache[14] = [
+                default: withCtx(() => _cache[16] || (_cache[16] = [
                   createTextVNode("新文件夹")
                 ])),
                 _: 1
@@ -819,7 +868,7 @@ const _sfc_main = {
               createVNode(unref(Field), {
                 modelValue: targetFolder.value,
                 "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => targetFolder.value = $event),
-                placeholder: "请填写 或 选择旧文件夹地址",
+                placeholder: "请填选旧文件夹地址",
                 onChange: saveToFile
               }, null, 8, ["modelValue"]),
               createVNode(unref(Button), {
@@ -828,7 +877,7 @@ const _sfc_main = {
                 onClick: _cache[8] || (_cache[8] = ($event) => openFolder("old")),
                 class: "button"
               }, {
-                default: withCtx(() => _cache[15] || (_cache[15] = [
+                default: withCtx(() => _cache[17] || (_cache[17] = [
                   createTextVNode("旧文件夹")
                 ])),
                 _: 1
@@ -838,7 +887,7 @@ const _sfc_main = {
         ]),
         createBaseVNode("section", _hoisted_12, [
           createBaseVNode("section", _hoisted_13, [
-            _cache[17] || (_cache[17] = createTextVNode(" 修改文件 ")),
+            _cache[19] || (_cache[19] = createTextVNode(" 修改文件 ")),
             createVNode(unref(Icon), {
               name: "add-o",
               size: "24",
@@ -846,7 +895,7 @@ const _sfc_main = {
               class: "cursor ml-10",
               onClick: openFileModify
             }),
-            _cache[18] || (_cache[18] = createBaseVNode("span", { class: "c-gray ml-10 sub" }, ' (修改文件内某些字段, 如无清除json字段, 只能修改包含且支持js语法文件里的 "aaa"="111" 或者"aaa":"111"这样的格式)', -1))
+            _cache[20] || (_cache[20] = createBaseVNode("span", { class: "c-gray ml-10 sub" }, ' (修改文件内某些字段, 如无清除json字段, 只能修改包含且支持js语法文件里的 "aaa"="111" 或者"aaa":"111"这样的格式)', -1))
           ]),
           (openBlock(true), createElementBlock(Fragment, null, renderList(modifyList.value, (item, index2) => {
             return openBlock(), createElementBlock("section", {
@@ -872,7 +921,7 @@ const _sfc_main = {
               (openBlock(true), createElementBlock(Fragment, null, renderList(item.json, (itemC, indexC) => {
                 return openBlock(), createElementBlock("section", {
                   class: "flex-row items-center pb-10",
-                  key: item.id
+                  key: indexC
                 }, [
                   createVNode(unref(Field), {
                     modelValue: itemC.key,
@@ -899,7 +948,7 @@ const _sfc_main = {
                     class: "ml-10",
                     onClick: ($event) => removeJsonField(index2, indexC)
                   }, {
-                    default: withCtx(() => _cache[19] || (_cache[19] = [
+                    default: withCtx(() => _cache[21] || (_cache[21] = [
                       createTextVNode("删除")
                     ])),
                     _: 2
@@ -913,27 +962,82 @@ const _sfc_main = {
           createVNode(unref(Button), {
             type: "primary",
             onClick: submit,
-            class: "submit"
+            class: "submit",
+            color: "#F19C73"
           }, {
-            default: withCtx(() => _cache[20] || (_cache[20] = [
-              createTextVNode("立即执行")
+            default: withCtx(() => _cache[22] || (_cache[22] = [
+              createTextVNode("确定修改")
             ])),
             _: 1
-          }),
+          })
+        ]),
+        createBaseVNode("section", _hoisted_17, [
+          _cache[25] || (_cache[25] = createBaseVNode("section", { class: "pb-10 title" }, [
+            createTextVNode("项目打包"),
+            createBaseVNode("span", { class: "c-gray sub" }, " (打包功能, 填选项目根目录地址, 输入项目的打包命令)")
+          ], -1)),
+          createBaseVNode("section", _hoisted_18, [
+            createVNode(unref(Field), {
+              modelValue: executeBuild.value.folder,
+              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => executeBuild.value.folder = $event),
+              placeholder: "请填选项目根目录地址",
+              onChange: saveToFile
+            }, null, 8, ["modelValue"]),
+            createVNode(unref(Button), {
+              type: "primary",
+              plain: "",
+              onClick: executeCommandLine,
+              class: "button"
+            }, {
+              default: withCtx(() => _cache[23] || (_cache[23] = [
+                createTextVNode("根目录")
+              ])),
+              _: 1
+            })
+          ]),
+          createBaseVNode("section", _hoisted_19, [
+            createVNode(unref(Field), {
+              modelValue: executeBuild.value.command,
+              "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => executeBuild.value.command = $event),
+              placeholder: "请输入打包命令, 如 npm run build",
+              onChange: saveToFile
+            }, null, 8, ["modelValue"]),
+            createBaseVNode("section", _hoisted_20, [
+              !executeBuild.value.loading ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+                createTextVNode("未开始打包")
+              ], 64)) : (openBlock(), createBlock(unref(Loading), {
+                key: 1,
+                color: "#1989fa"
+              }))
+            ])
+          ]),
+          createVNode(unref(Button), {
+            type: "primary",
+            onClick: startBuild,
+            class: "submit",
+            color: "#F19C73"
+          }, {
+            default: withCtx(() => _cache[24] || (_cache[24] = [
+              createTextVNode("开始打包")
+            ])),
+            _: 1
+          })
+        ]),
+        createBaseVNode("section", _hoisted_21, [
           createVNode(unref(Button), {
             plain: "",
             onClick: logout,
             class: "logout"
           }, {
-            default: withCtx(() => _cache[21] || (_cache[21] = [
-              createTextVNode("退出")
+            default: withCtx(() => _cache[26] || (_cache[26] = [
+              createTextVNode("返回首页")
             ])),
             _: 1
           })
         ]),
         createVNode(unref(Dialog), {
           show: overallShow.value,
-          "onUpdate:show": _cache[10] || (_cache[10] = ($event) => overallShow.value = $event),
+          "onUpdate:show": _cache[12] || (_cache[12] = ($event) => overallShow.value = $event),
           title: "增加配置",
           "show-cancel-button": "",
           onConfirm: confirmFileName,
@@ -943,10 +1047,10 @@ const _sfc_main = {
           theme: "round-button"
         }, {
           default: withCtx(() => [
-            createBaseVNode("section", _hoisted_17, [
+            createBaseVNode("section", _hoisted_22, [
               createVNode(unref(Field), {
                 modelValue: fileNameModify.value,
-                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => fileNameModify.value = $event),
+                "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => fileNameModify.value = $event),
                 label: "填写配置名:",
                 "label-width": "80",
                 placeholder: "请填写配置名",
@@ -960,7 +1064,7 @@ const _sfc_main = {
     };
   }
 };
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-25212db1"]]);
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-2ba50cc9"]]);
 export {
   index as default
 };

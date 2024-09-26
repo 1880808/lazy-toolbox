@@ -5,6 +5,11 @@ const data = {
     "targetFile": "",
     "sourceFolder": "",
     "targetFolder": "",
+    "executeBuild": {
+      "loading": false,
+      "command": "",
+      "folder": ""
+    },
     "modifyList": [
     ]
   },
@@ -13,6 +18,11 @@ const data = {
     "targetFile": "",
     "sourceFolder": "",
     "targetFolder": "",
+    "executeBuild": {
+      "loading": false,
+      "command": "",
+      "folder": ""
+    },
     "modifyList": [
     ]
   }

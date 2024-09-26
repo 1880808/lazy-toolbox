@@ -1,11 +1,10 @@
 import { app, globalShortcut, BrowserWindow, ipcMain, dialog, shell } from "electron";
 import require$$0, { join } from "path";
-import "asar";
 import fs$1 from "fs";
-import require$$0$2 from "os";
 import require$$0$1, { exec } from "child_process";
 import { electronApp, is } from "@electron-toolkit/utils";
 import process$2 from "node:process";
+import require$$0$2 from "os";
 import require$$0$3 from "assert";
 import require$$2 from "events";
 import require$$0$5 from "buffer";
@@ -2153,4 +2152,18 @@ ipcMain.handle("export-folder", async (event, sourceFolder = "", targetFolder = 
   } catch (error2) {
     return { success: false, message: error2.message };
   }
+});
+ipcMain.handle("execute-command-line", async (event, folder, command2) => {
+  return new Promise((resolve, reject) => {
+    exec(command2, { cwd: folder }, (error2, stdout, stderr) => {
+      if (error2) {
+        console.error(`执行错误: ${error2.message}`);
+        dialog.showErrorBox("执行错误", error2.message);
+        resolve({ success: false, message: error2.message });
+      }
+      if (stderr) {
+        resolve({ success: true, message: stdout });
+      }
+    });
+  });
 });
