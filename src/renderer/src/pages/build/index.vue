@@ -450,18 +450,21 @@ async function startBuild() {
 
     <section class="file-box mt-40 execute-command-line">
       <section class="pb-10 title">项目打包<span class="c-gray sub"> (打包功能, 填选项目根目录地址, 输入项目的打包命令)</span></section>
-      <section class="flex-row items-center box">
-        <Field v-model="executeBuild.folder" placeholder="请填选项目根目录地址" @change="saveToFile"/>
-        <Button type="primary" plain @click="executeCommandLine" class="button">根目录</Button>
-      </section>
-      <section class="flex-row items-center mt-10 box box2">
-        <Field v-model="executeBuild.command" placeholder="请输入打包命令, 如 npm run build" @change="saveToFile"/>
-        <section class="c-gray no-started">
-          <template v-if="!executeBuild.loading">未开始打包</template>
-          <loading v-else color="#1989fa"/>
+      <section class="flex-row items-center">
+        <section class="flex-row items-center flex-1">
+          <Field v-model="executeBuild.folder" placeholder="请填选项目根目录地址" @change="saveToFile"/>
+          <Button type="primary" plain @click="executeCommandLine" class="button">选择目录</Button>
+        </section>
+        <section class="flex-row items-center mt-10 flex-1">
+          <Field v-model="executeBuild.command" placeholder="请输入打包命令, 如 npm run build" @change="saveToFile"/>
+          <Button type="primary" @click="startBuild" class="submit" color="#F19C73" :loading="executeBuild.loading">开始打包</Button>
+<!--          <section class="c-gray no-started">-->
+<!--            <template v-if="!executeBuild.loading">未开始打包</template>-->
+<!--            <loading v-else color="#1989fa"/>-->
+<!--          </section>-->
         </section>
       </section>
-      <Button type="primary" @click="startBuild" class="submit" color="#F19C73">开始打包</Button>
+<!--      <Button type="primary" @click="startBuild" class="submit" color="#F19C73">开始打包</Button>-->
     </section>
 
     <section class="flex-row justify-center items-center submit-btns">
@@ -582,19 +585,16 @@ async function startBuild() {
 
 .execute-command-line{
   position: relative;
-  .box{
-    width: 500px;
-  }
   .no-started{
     width: 130px;
     text-align: center;
   }
   .submit {
-    position: absolute;
-    top: 45px;
-    left: 540px;
+    //position: absolute;
+    //top: 45px;
+    //left: 540px;
     width: 120px;
-    height: 60px;
+    //height: 60px;
     border-radius: 30px;
   }
 }

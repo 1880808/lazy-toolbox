@@ -11,6 +11,7 @@ import require$$0$5 from "buffer";
 import require$$0$4 from "stream";
 import require$$2$1 from "util";
 import { userInfo } from "node:os";
+import Store from "electron-store";
 import __cjs_mod__ from "node:module";
 const __filename = import.meta.filename;
 const __dirname = import.meta.dirname;
@@ -1857,11 +1858,15 @@ function fixPath() {
     process$2.env.PATH
   ].join(":");
 }
+const store = new Store();
 let mainWindow;
 function createWindow() {
+  const { width, height, x, y } = store.get("windowBounds") || { width: 1100, height: 800, x: null, y: null };
   mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 800,
+    width,
+    height,
+    x,
+    y,
     show: false,
     // 初始时不显示窗口
     autoHideMenuBar: true,
@@ -1894,6 +1899,13 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }
+  mainWindow.on("resize", saveWindowBounds);
+  mainWindow.on("move", saveWindowBounds);
+}
+function saveWindowBounds() {
+  if (mainWindow.isMinimized()) return;
+  const { width, height, x, y } = mainWindow.getBounds();
+  store.set("windowBounds", { width, height, x, y });
 }
 app.whenReady().then(() => {
   electronApp.setAppUserModelId("com.electron");

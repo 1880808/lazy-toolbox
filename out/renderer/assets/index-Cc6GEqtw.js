@@ -1,4 +1,4 @@
-import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as createBlock, Y as showToast, Z as openBlock, $ as normalizeClass, a0 as toDisplayString, a1 as Icon, a2 as Field, a3 as Loading, a4 as useRouter } from "./index-Uo-L1bZk.js";
+import { r as ref, o as onMounted, n as nextTick, a as onPopupReopen, w as watch, b as windowWidth, c as windowHeight, u as useRect, d as createVNode, e as createNamespace, f as defineComponent, g as useChildren, t as truthProp, h as withInstall, i as extend, j as routeProps, k as useRoute, l as useParent, m as computed, p as useExpose, B as Button, q as popupSharedProps, s as numericProp, v as unknownProp, x as makeStringProp, y as popupSharedPropKeys, z as reactive, A as withKeys, C as mergeProps, D as pick, E as addUnit, P as Popup, F as noop, G as isFunction, H as BORDER_LEFT, I as BORDER_TOP, J as callInterceptor, K as inBrowser, L as mountComponent, M as usePopupState, N as defineStore, S as Storage, _ as _export_sfc, O as createElementBlock, Q as createBaseVNode, R as Fragment, T as renderList, U as unref, V as createTextVNode, W as withCtx, X as showToast, Y as openBlock, Z as normalizeClass, $ as toDisplayString, a0 as Icon, a1 as Field, a2 as useRouter } from "./index-DOr8MkJj.js";
 const useHeight = (element, withSafeArea) => {
   const height = ref();
   const setHeight = () => {
@@ -416,9 +416,9 @@ const _hoisted_14 = { class: "flex-row items-center mt-15 mb-10 select" };
 const _hoisted_15 = { class: "select-list active" };
 const _hoisted_16 = { class: "flex-row justify-center items-center submit-btns" };
 const _hoisted_17 = { class: "file-box mt-40 execute-command-line" };
-const _hoisted_18 = { class: "flex-row items-center box" };
-const _hoisted_19 = { class: "flex-row items-center mt-10 box box2" };
-const _hoisted_20 = { class: "c-gray no-started" };
+const _hoisted_18 = { class: "flex-row items-center" };
+const _hoisted_19 = { class: "flex-row items-center flex-1" };
+const _hoisted_20 = { class: "flex-row items-center mt-10 flex-1" };
 const _hoisted_21 = { class: "flex-row justify-center items-center submit-btns" };
 const _hoisted_22 = { class: "ml-20 mr-20 mt-30 mb-30" };
 const _sfc_main = {
@@ -977,51 +977,46 @@ const _sfc_main = {
             createBaseVNode("span", { class: "c-gray sub" }, " (打包功能, 填选项目根目录地址, 输入项目的打包命令)")
           ], -1)),
           createBaseVNode("section", _hoisted_18, [
-            createVNode(unref(Field), {
-              modelValue: executeBuild.value.folder,
-              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => executeBuild.value.folder = $event),
-              placeholder: "请填选项目根目录地址",
-              onChange: saveToFile
-            }, null, 8, ["modelValue"]),
-            createVNode(unref(Button), {
-              type: "primary",
-              plain: "",
-              onClick: executeCommandLine,
-              class: "button"
-            }, {
-              default: withCtx(() => _cache[23] || (_cache[23] = [
-                createTextVNode("根目录")
-              ])),
-              _: 1
-            })
-          ]),
-          createBaseVNode("section", _hoisted_19, [
-            createVNode(unref(Field), {
-              modelValue: executeBuild.value.command,
-              "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => executeBuild.value.command = $event),
-              placeholder: "请输入打包命令, 如 npm run build",
-              onChange: saveToFile
-            }, null, 8, ["modelValue"]),
+            createBaseVNode("section", _hoisted_19, [
+              createVNode(unref(Field), {
+                modelValue: executeBuild.value.folder,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => executeBuild.value.folder = $event),
+                placeholder: "请填选项目根目录地址",
+                onChange: saveToFile
+              }, null, 8, ["modelValue"]),
+              createVNode(unref(Button), {
+                type: "primary",
+                plain: "",
+                onClick: executeCommandLine,
+                class: "button"
+              }, {
+                default: withCtx(() => _cache[23] || (_cache[23] = [
+                  createTextVNode("选择目录")
+                ])),
+                _: 1
+              })
+            ]),
             createBaseVNode("section", _hoisted_20, [
-              !executeBuild.value.loading ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-                createTextVNode("未开始打包")
-              ], 64)) : (openBlock(), createBlock(unref(Loading), {
-                key: 1,
-                color: "#1989fa"
-              }))
+              createVNode(unref(Field), {
+                modelValue: executeBuild.value.command,
+                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => executeBuild.value.command = $event),
+                placeholder: "请输入打包命令, 如 npm run build",
+                onChange: saveToFile
+              }, null, 8, ["modelValue"]),
+              createVNode(unref(Button), {
+                type: "primary",
+                onClick: startBuild,
+                class: "submit",
+                color: "#F19C73",
+                loading: executeBuild.value.loading
+              }, {
+                default: withCtx(() => _cache[24] || (_cache[24] = [
+                  createTextVNode("开始打包")
+                ])),
+                _: 1
+              }, 8, ["loading"])
             ])
-          ]),
-          createVNode(unref(Button), {
-            type: "primary",
-            onClick: startBuild,
-            class: "submit",
-            color: "#F19C73"
-          }, {
-            default: withCtx(() => _cache[24] || (_cache[24] = [
-              createTextVNode("开始打包")
-            ])),
-            _: 1
-          })
+          ])
         ]),
         createBaseVNode("section", _hoisted_21, [
           createVNode(unref(Button), {
@@ -1064,7 +1059,7 @@ const _sfc_main = {
     };
   }
 };
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-2ba50cc9"]]);
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-13281a07"]]);
 export {
   index as default
 };

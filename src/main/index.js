@@ -4,14 +4,21 @@ import fs from 'fs'
 import { exec } from 'child_process'
 import { electronApp, is } from '@electron-toolkit/utils'
 import fixPath from 'fix-path';
+import Store from 'electron-store';
+
+const store = new Store();
 
 // 创建浏览器窗口的函数
 let mainWindow;
 function createWindow() {
+  // 获取之前保存的窗口设置
+  const { width, height, x, y } = store.get('windowBounds') || { width: 1100, height: 800, x: null, y: null };
   // 创建浏览器窗口
   mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 800,
+    width,
+    height,
+    x,
+    y,
     show: false, // 初始时不显示窗口
     autoHideMenuBar: true, // 自动隐藏菜单栏
     icon: join(__dirname, '../renderer/img/logo2.png'),
@@ -48,7 +55,20 @@ function createWindow() {
   }
   // 打开开发工具
   // mainWindow.webContents.openDevTools()
+
+
+  // 监听窗口大小和位置变化
+  mainWindow.on('resize', saveWindowBounds);
+  mainWindow.on('move', saveWindowBounds);
 }
+
+// 保存窗口大小和位置
+function saveWindowBounds() {
+  if (mainWindow.isMinimized()) return; // 如果最小化则不保存位置
+  const { width, height, x, y } = mainWindow.getBounds();
+  store.set('windowBounds', { width, height, x, y });
+}
+
 
 // 当 Electron 初始化完成后，将被调用，准备创建浏览器窗口
 app.whenReady().then(() => {
@@ -410,12 +430,12 @@ ipcMain.handle('execute-command-line', async (event, folder, command) => {
         console.error(`执行错误: ${error.message}`);
         dialog.showErrorBox('执行错误', error.message);
         // return reject(error);
-        resolve({ success: false, message: error.message }); // 返回标准输出
+        resolve({ success: false, message: error.message });
       }
       if (stderr) {
         // console.error(`标准错误: ${stderr}`);
         // dialog.showErrorBox('标准错误', stderr);
-        resolve({ success: true, message: stdout }); // 返回标准输出
+        resolve({ success: true, message: stdout });
       }
       // resolve(stdout); // 返回标准输出
     });
