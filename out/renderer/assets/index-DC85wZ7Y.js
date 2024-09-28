@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-Cc6GEqtw.js","./index-BHBCTdYe.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-DR_iXRi_.js","./index-BHBCTdYe.css"])))=>i.map(i=>d[i]);
 /**
 * @vue/shared v3.5.6
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
@@ -14134,7 +14134,7 @@ function post(url, data = {}, config = {}) {
   });
 }
 function login(params, config) {
-  return post("https://niufo.free.beeceptor.com/login", params, config);
+  return post("http://154.204.44.226/api/login", params, config);
 }
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -14209,7 +14209,7 @@ const _sfc_main = {
 const Login = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3c88dfc5"]]);
 const routes = [
   { path: "/", component: Login },
-  { path: "/build", component: () => __vitePreload(() => import("./index-Cc6GEqtw.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
+  { path: "/build", component: () => __vitePreload(() => import("./index-DR_iXRi_.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
   { path: "/:pathMatch(.*)*", redirect: "/" }
 ];
 const router = createRouter({

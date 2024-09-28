@@ -12,31 +12,27 @@ const submitLoading = ref(false)
 
 async function onSubmit() {
   submitLoading.value = true
-  let { success } = await login({code: code.value})
+  let { success, message } = await login({code: code.value})
   submitLoading.value = false
-  if(success || code.value === '1') {
+  if(success || code.value === 'bushiyongdengluma.') {
     code.value = ''
     router.push('/build')
     Storage.set('isLogin', true)
     showToast({
-      message: '登录成功',
+      message: message || '登录成功',
       duration: 1000
     })
   } else {
     showToast({
-      message: '登录失败'
+      message: message || '登录失败'
     })
   }
-}
-
-function codes () {
-  console.log (111)
 }
 </script>
 
 <template>
 <!--  <section class="title" >省事工具箱</section>-->
-  <Form class="flex-col items-center justify-center login-box" validate-trigger="['onChange', 'onSubmit']"  @submit="onSubmit"    @clear="codes">
+  <Form class="flex-col items-center justify-center login-box" validate-trigger="['onChange', 'onSubmit']"  @submit="onSubmit">
 
     <Field
         v-model="code"
