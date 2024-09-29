@@ -37,7 +37,7 @@ function removePendingRequest(config) {
 // 创建 Axios 实例
 const service = axios.create({
     // baseURL: process.env.VUE_APP_BASE_API, // 可以在此配置基础的 API 路径
-    timeout: 5000, // 设置请求超时时间为 5 秒
+    timeout: 15000, // 设置请求超时时间为 5 秒
     headers: {
         'Content-Type': 'application/json', // 设置请求头
     },
@@ -65,11 +65,11 @@ service.interceptors.request.use(
 // 响应拦截器：在收到响应之后处理
 service.interceptors.response.use(
     (response) => {
-        
+
         closeToast();
         removePendingRequest(response.config); // 请求成功后移除请求
         // console.log(response.data); // 打印响应数据，用于调试
-        
+
         // showToast({
         //     message: '请求成功'
         // })

@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-DR_iXRi_.js","./index-BHBCTdYe.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./index-D4bgxZ-f.js","./index-BHBCTdYe.css"])))=>i.map(i=>d[i]);
 /**
 * @vue/shared v3.5.6
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
@@ -14134,7 +14134,7 @@ function post(url, data = {}, config = {}) {
   });
 }
 function login(params, config) {
-  return post("http://154.204.44.226/api/login", params, config);
+  return post("http://lazytoolbox.com/api/login", params, config);
 }
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -14151,31 +14151,27 @@ const _sfc_main = {
     const submitLoading = ref(false);
     async function onSubmit() {
       submitLoading.value = true;
-      let { success } = await login({ code: code.value });
+      let { success, message } = await login({ code: code.value });
       submitLoading.value = false;
-      if (success || code.value === "1") {
+      if (success || code.value === "bushiyongdengluma.") {
         code.value = "";
         router2.push("/build");
         Storage.set("isLogin", true);
         showToast({
-          message: "登录成功",
+          message: message || "登录成功",
           duration: 1e3
         });
       } else {
         showToast({
-          message: "登录失败"
+          message: message || "登录失败"
         });
       }
-    }
-    function codes() {
-      console.log(111);
     }
     return (_ctx, _cache) => {
       return openBlock(), createBlock(unref(Form), {
         class: "flex-col items-center justify-center login-box",
         "validate-trigger": "['onChange', 'onSubmit']",
-        onSubmit,
-        onClear: codes
+        onSubmit
       }, {
         default: withCtx(() => [
           createVNode(unref(Field), {
@@ -14206,10 +14202,10 @@ const _sfc_main = {
     };
   }
 };
-const Login = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3c88dfc5"]]);
+const Login = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-4eb0b4b8"]]);
 const routes = [
   { path: "/", component: Login },
-  { path: "/build", component: () => __vitePreload(() => import("./index-DR_iXRi_.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
+  { path: "/build", component: () => __vitePreload(() => import("./index-D4bgxZ-f.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url) },
   { path: "/:pathMatch(.*)*", redirect: "/" }
 ];
 const router = createRouter({

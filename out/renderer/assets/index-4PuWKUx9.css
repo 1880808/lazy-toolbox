@@ -1,28 +1,28 @@
-@charset "UTF-8";.title[data-v-3c88dfc5] {
+@charset "UTF-8";.title[data-v-4eb0b4b8] {
   padding: 20px 0 100px 50px;
   font-size: 24px;
 }
-.login-box[data-v-3c88dfc5] {
+.login-box[data-v-4eb0b4b8] {
   width: 500px;
   margin: 250px auto 0;
   text-align: center;
 }
-.login-box .van-field[data-v-3c88dfc5] {
+.login-box .van-field[data-v-4eb0b4b8] {
   padding: 0;
   margin: 0 auto;
   width: 250px;
   border: none;
 }
-.login-box .van-field[data-v-3c88dfc5]:after {
+.login-box .van-field[data-v-4eb0b4b8]:after {
   content: none;
 }
-.login-box[data-v-3c88dfc5] .van-field__body {
+.login-box[data-v-4eb0b4b8] .van-field__body {
   height: 45px;
   padding: 0 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
 }
-.submit[data-v-3c88dfc5] {
+.submit[data-v-4eb0b4b8] {
   margin: 60px auto 0;
   width: 150px;
   border-radius: 30px;
